@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from .keywordgroup import KeywordGroup
-
-
+from ..utils.key_code_dict import keydict
 class _KeyeventKeywords(KeywordGroup):
 
     # Public
@@ -31,6 +30,13 @@ class _KeyeventKeywords(KeywordGroup):
         """
         driver = self._current_application()
         driver.press_keycode(keycode, metastate)
+    
+    def press_word(self, word):
+        driver = self._current_application()
+        shift_pressed = 1
+        for c in word:
+            metastate = shift_pressed if  c.isupper() else None
+            driver.press_keycode(keydict.get(c.lower()), metastate)
 
     def long_press_keycode(self, keycode, metastate=None):
         """Sends a long press of keycode to the device.
